@@ -5,10 +5,10 @@ class Pages
 
     public function findByID($pageID): string
     {
-        return get_the_title($pageID);
+        return get_post($pageID);
     }
 
-    public function getAllPages(): array //pobieranie stron z przypisanym post meta
+    public function getAllPages(): array //pobieranie stron z przypisanymi post meta
     {
         $pagesIDS = $this->getAllPagesIDS();
         $pages = [];
@@ -22,7 +22,7 @@ class Pages
         return $pages;
     }
 
-    public function getAllPagesIDS(): array //pobieranie id wszystkich istniejących stron w systemie
+    public function getAllPagesIDS(): array //pobieranie id wszystkich stron z przypisanymi post meta
     {
         return get_all_page_ids();
     }
@@ -34,6 +34,6 @@ class Pages
 
     public function remove(int $pageID): void
     {
-
+        delete_post_meta($pageID, 'amara_page_access');
     }
 }

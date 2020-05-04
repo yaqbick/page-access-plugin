@@ -9,6 +9,7 @@
         $page = get_page_by_title($_POST["pageSelector"]);
         $pages->add($page->ID);
     }
+    var_dump($_POST);
 
 ?>
 
@@ -22,9 +23,9 @@
 <form method="POST">
 <select name="pageSelector">
 
-<?php foreach ($pages->getAllPagesIDS() as $id)
+<?php foreach ($pages->getAllPagesIDS() as $pageID)
 {
-    echo '<option>'.get_the_title($id).'</option>';
+    echo '<option>'.get_the_title($pageID).'</option>';
 }?>
 
 </select>
@@ -40,12 +41,15 @@
     </tr>
   </thead>
 <tbody>
-<?php  foreach($pages->getAllPages() as $page)
+<form method="POST">
+<?php  foreach(getAllAmaraPagesIDS() as $pageID)
 
-echo "<tr><td>".$page."</td><td>".displayCheckboxes($page)."</td></tr>";
+echo "<tr><td>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID)."</td></tr>";
 
 ?>
 </tbody>
 </table>
+<button type="submit">zapisz</button>
+</form>
 </div>
 
