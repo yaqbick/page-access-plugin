@@ -15,9 +15,9 @@ Description: Manage access for users
 Author: yaqbick
 
 */
-
+require_once(ABSPATH.'wp-content/plugins/amara-page-access/functions.php');
 add_action('admin_menu', 'amara_page_access');
-
+add_filter ( 'the_content' , 'checkRole' , 50 );
 
 
 function amara_page_access()

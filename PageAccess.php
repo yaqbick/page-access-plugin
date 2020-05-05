@@ -2,8 +2,8 @@
 
 class PageAccess
 {
-    protected int $pageID;
-    protected array $roles;
+    protected  $pageID;
+    protected  $roles;
 
     public function __construct(int $pageID, array $roles)
     {
@@ -11,9 +11,14 @@ class PageAccess
         $this->roles = $roles;
     }
 
-    public function update():void
+    public function save():void
     {
-        update_post_meta();
+        update_post_meta($this->pageID,'amara_page_access',$this->roles);
+    }
+
+    public function addRole(string $role):void
+    {
+        $this->roles[] = $role;
     }
 
 

@@ -14,17 +14,23 @@ class Pages
         $pages = [];
         foreach ($pagesIDS as $pageID)
         {
-            if( get_post_meta($pageID,'amara_page_access'))
-            {
-                $pages[] = $this->findByID($pageID);
-            }
+            $pages[] = $this->findByID($pageID);
         }
         return $pages;
     }
 
     public function getAllPagesIDS(): array //pobieranie id wszystkich stron z przypisanymi post meta
     {
-        return get_all_page_ids();
+        $AllPagesIDS = getAllAmaraPagesIDS();
+        $SelectedPagesIDS = [];
+        foreach ($AllPagesIDS as $pageID)
+        {
+            if( get_post_meta($pageID,'amara_page_access'))
+            {
+                $SelectedPagesIDS[] = $pageID;
+            }
+        }
+        return  $SelectedPagesIDS;
     }
 
     public function add(int $pageID): void 

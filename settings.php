@@ -4,12 +4,16 @@
 
     $pages = new Pages();
 
-    if(isset($_POST["pageSelector"]))
+    if(isset($_POST["pages_button"]))
     {
         $page = get_page_by_title($_POST["pageSelector"]);
         $pages->add($page->ID);
     }
-    var_dump($_POST);
+
+    if(isset($_POST["access_button"]))
+    {
+      updatePageAccess();
+    }
 
 ?>
 
@@ -29,7 +33,7 @@
 }?>
 
 </select>
-<button>dodaj</button>
+<button name="pages_button" type="submit">dodaj</button>
 </form>
 
 <div class="pt-5">
@@ -42,14 +46,14 @@
   </thead>
 <tbody>
 <form method="POST">
-<?php  foreach(getAllAmaraPagesIDS() as $pageID)
+<?php  foreach($pages->getAllPagesIDS() as $pageID)
 
 echo "<tr><td>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID)."</td></tr>";
 
 ?>
 </tbody>
 </table>
-<button type="submit">zapisz</button>
+<button name="access_button" type="submit">zapisz</button>
 </form>
 </div>
 
