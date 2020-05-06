@@ -13,6 +13,7 @@ class PageAccess
 
     public function save():void
     {
+        update_post_meta($this->pageID,'amara_page_access',null);
         update_post_meta($this->pageID,'amara_page_access',$this->roles);
     }
 
