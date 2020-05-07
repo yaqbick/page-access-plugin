@@ -28,15 +28,7 @@ function load_scripts()
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-add_action( 'wp_ajax_my_action', 'my_action' );
-add_action("wp_ajax_nopriv_my_action", "my_action");
-// wp_localize_script('apa_checkboxes', 'apa_checkboxes',array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
 }
-
-function my_action() {
-    wp_send_json_success($_REQUEST['data']['post_type']);
-  }
-
 
 function amara_page_access()
 {

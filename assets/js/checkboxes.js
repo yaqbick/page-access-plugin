@@ -1,30 +1,45 @@
-var pages = document.getElementsByClassName("apa_page");
-// alert(apa_checkboxes.pluginsUrl);
-for (i = 0; i < pages.length; i++) {
-  console.log(pages[i].innerText);
-}
-// var sports = document.forms["apa_checkbox"].elements["sports[]"];
 jQuery(document).ready(function ($) {
-  //   $(".access_button").on("click", function (event) {
-  var data = {
-    action: "my_action",
-    post_type: "POST",
-  };
-
-  $.post(
-    apa_checkboxes.ajax_url,
-    data,
-    function (response) {
-      console.log("response");
-    },
-    "json"
-  );
-  // $.ajax({
-  //   method: "POST",
-  //   url: apa_checkboxes.ajax_url,
-  //   data: { post_type: "Boston" },
-  // }).done(function (msg) {
-  //   alert("Data Saved: " + msg);
-  // });
+  var pages = document.getElementsByClassName("apa_page");
+  $(".access_button").on("click", function (event) {
+    var selectedChecboxes = JSON.stringify(getSelectedCheckboxes(pages));
+    // alert(selectedChecboxes);
+    var data = {
+      action: "my_action",
+      post_type: "POST",
+      data: selectedChecboxes,
+    };
+    console.log(data);
+    $.post(
+      apa_checkboxes.ajax_url,
+      data,
+      function (response) {
+        console.log(data.data);
+      },
+      "json"
+    );
+  });
 });
-// });
+
+function getSelectedCheckboxes(pages) {
+  checkboxes = [];
+  for (i = 0; i < pages.length; i++) {
+    // alert(pages[i].innerText);
+    var pageCheckboxes =
+      document.forms["apa_checkbox"].elements[pages[i].innerText + "[]"];
+    checkboxes.push({
+      pageID: pages[i].id,
+      value: getSelectedbyPage(pageCheckboxes),
+    });
+  }
+  return checkboxes;
+}
+
+function getSelectedbyPage(pageCheckboxes) {
+  selected = [];
+  for (j = 0; j < pageCheckboxes.length; j++) {
+    if (pageCheckboxes[j].checked) {
+      selected.push(pageCheckboxes[j].value);
+    }
+  }
+  return selected;
+}

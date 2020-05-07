@@ -12,20 +12,9 @@
 
     if(isset($_POST["access_button"]))
     {
-      // updatePageAccess();
+      header("Refresh:0");
     }
-var_dump($_POST);
-
-
-
-add_action('wp_ajax_my_action','handle_event');
-function handle_event()
-{
-  $response = [];
-  echo json_encode($response);
-  exit;
-}
-
+    // var_dump(get_post_meta(21699,'amara_page_access'));
 
 ?>
 
@@ -57,7 +46,7 @@ function handle_event()
 <form method="POST" class="apa_checkbox" id="apa_checkbox">
 <?php  foreach($pages->getAllPagesIDS() as $pageID)
 
-echo "<tr><td class='apa_page'>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID)."</td></tr>";
+echo "<tr><td id='".$pageID."' class='apa_page'>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID)."</td></tr>";
 
 ?>
 </tbody>

@@ -11,17 +11,17 @@ function displayCheckboxes($pageID): string
     {
         if(strpos($key,'um_')!== false)
         {
-            // $rolesAllowed = get_post_meta($pageID,'amara_page_access',true);
-            // if(isset($rolesAllowed) && !empty($rolesAllowed) && in_array($roleName,$rolesAllowed))
-            // {
-            //     $output.= '<input type="checkbox" checked id=".ID_'.$pageID.'" name="APA_'.$roleName.'_'.$pageID.'">
-            //     <label for="vehicle1">'.$roleName.'</label>';
-            // }
-            // else
-            // {
-                $output.= '<input type="checkbox" id=".ID_'.$pageID.'" name="'.get_the_title($pageID).'[]" value="'.$roleName.'">
+            $rolesAllowed = get_post_meta($pageID,'amara_page_access',true);
+            if(isset($rolesAllowed) && !empty($rolesAllowed) && in_array($roleName,$rolesAllowed))
+            {
+                $output.= '<input type="checkbox" checked  name="'.get_the_title($pageID).'[]" value="'.$roleName.'">
                 <label for="vehicle1">'.$roleName.'</label>';
-        //     }
+            }
+            else
+            {
+                $output.= '<input type="checkbox" name="'.get_the_title($pageID).'[]" value="'.$roleName.'">
+                <label for="vehicle1">'.$roleName.'</label>';
+            }
         }
 
     }
@@ -33,51 +33,63 @@ function getAllAmaraPagesIDS()
     return get_all_page_ids();
 }
 
-function requestToObjects():array
-{
-    $accessObjects = [];
-    foreach($_POST as $key=>$value)
-    {
-        if(strpos($key,'APA')!== false)
-        {
-            $data = explode('_',$key);
-            $pageID = $data[2];
-            $role = $data[1];
-            if($value=='on')
-            {
+// function requestToObjects():array
+// {
+//     $accessObjects = [];
+//     foreach($_POST as $key=>$value)
+//     {
+//         if(strpos($key,'APA')!== false)
+//         {
+//             $data = explode('_',$key);
+//             $pageID = $data[2];
+//             $role = $data[1];
+//             if($value=='on')
+//             {
 
-                if(isset($accessObjects[$pageID]))
-                {
-                    $accessObjects[$pageID]->addRole($role);
-                }
-                else
-                {
-                    $pageAccess = new PageAccess(intval($pageID),[$role]);
-                    $accessObjects[$pageID] = $pageAccess; 
-                }
-            }
-            else
-            {
-                $assignedRoles = get_post_meta($pageID,'amara_page_access',true);
-                if(in_array($role, $assignedRoles ))
-                {
-                    var_dump('test');
-                    unset($assignedRoles[$role]);
-                    update_post_meta($pageID,'amara_page_access',$assignedRoles);
-                }
-            }
-        }
-    }
-    return  $accessObjects;
-}
+//                 if(isset($accessObjects[$pageID]))
+//                 {
+//                     $accessObjects[$pageID]->addRole($role);
+//                 }
+//                 else
+//                 {
+//                     $pageAccess = new PageAccess(intval($pageID),[$role]);
+//                     $accessObjects[$pageID] = $pageAccess; 
+//                 }
+//             }
+//             else
+//             {
+//                 $assignedRoles = get_post_meta($pageID,'amara_page_access',true);
+//                 if(in_array($role, $assignedRoles ))
+//                 {
+//                     unset($assignedRoles[$role]);
+//                     update_post_meta($pageID,'amara_page_access',$assignedRoles);
+//                 }
+//             }
+//         }
+//     }
+//     return  $accessObjects;
+// }
 
-function updatePageAccess()
+// function updatePageAccess()
+// {
+//     $accessObjects = requestToObjects();
+//     foreach($accessObjects as $key=>$object)
+//     {
+//         $object->save();
+//     }
+// }
+
+add_action('wp_ajax_my_action','handle_event');
+function handle_event()
 {
-    $accessObjects = requestToObjects();
-    foreach($accessObjects as $key=>$object)
+    $decodedResponse = json_decode(stripslashes($_POST['data']),true);
+
+    foreach ($decodedResponse as $page)
     {
-        $object->save();
+        update_post_meta($page['pageID'],'amara_page_access', $page['value']);
     }
+
+  exit;
 }
 
 
