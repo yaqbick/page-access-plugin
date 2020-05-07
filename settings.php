@@ -16,13 +16,14 @@
     }
 var_dump($_POST);
 
-function my_action() {
-  global $wpdb;
-  var_dump($_REQUEST);
-  $whatever = intval( $_POST['whatever'] );
-  $whatever += 10;
-        echo $whatever;
-  wp_die();
+
+
+add_action('wp_ajax_my_action','handle_event');
+function handle_event()
+{
+  $response = [];
+  echo json_encode($response);
+  exit;
 }
 
 

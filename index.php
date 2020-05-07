@@ -20,7 +20,7 @@ add_action('admin_menu', 'amara_page_access');
 add_filter ( 'the_content' , 'checkRole' , 50 );
 add_action('admin_enqueue_scripts', 'load_scripts');
 
-function load_scripts($hook)
+function load_scripts()
 {
   wp_register_script('apa_checkboxes',plugins_url( 'assets/js/checkboxes.js', __FILE__ ), array( 'jquery' ));
   wp_enqueue_script('apa_checkboxes');
@@ -32,6 +32,10 @@ add_action( 'wp_ajax_my_action', 'my_action' );
 add_action("wp_ajax_nopriv_my_action", "my_action");
 // wp_localize_script('apa_checkboxes', 'apa_checkboxes',array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
 }
+
+function my_action() {
+    wp_send_json_success($_REQUEST['data']['post_type']);
+  }
 
 
 function amara_page_access()
