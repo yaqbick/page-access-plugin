@@ -17,7 +17,6 @@ Author: yaqbick
 */
 require_once(ABSPATH.'wp-content/plugins/amara-page-access/functions.php');
 add_action('admin_menu', 'amara_page_access');
-add_filter ( 'the_content' , 'checkRole' , 50 );
 add_action('admin_enqueue_scripts', 'load_scripts');
 
 function load_scripts()

@@ -18,6 +18,23 @@ jQuery(document).ready(function ($) {
       "json"
     );
   });
+
+  $(".delete_button ").on("click", function (event) {
+    pageID = event.target.value;
+    var data = {
+      action: "delete_page",
+      post_type: "POST",
+      data: pageID,
+    };
+    $.post(
+      apa_checkboxes.ajax_url,
+      data,
+      function (response) {
+        console.log(data.data);
+      },
+      "json"
+    );
+  });
 });
 
 function getSelectedCheckboxes(pages) {

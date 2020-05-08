@@ -10,11 +10,10 @@
         $pages->add($page->ID);
     }
 
-    if(isset($_POST["access_button"]))
+    if(isset($_POST["access_button"])|| isset($_POST["delete_button"]))
     {
       header("Refresh:0");
     }
-    // var_dump(get_post_meta(21699,'amara_page_access'));
 
 ?>
 
@@ -25,7 +24,7 @@
 <form method="POST">
 <select name="pageSelector">
 
-<?php foreach ($pages->getAllPagesIDS() as $pageID)
+<?php foreach (getAllAmaraPagesIDS() as $pageID)
 {
     echo '<option>'.get_the_title($pageID).'</option>';
 }?>
@@ -39,18 +38,18 @@
 <thead>
     <tr>
       <th scope="col">Strona</th>
-      <th scope="col">Role</th>
+      <th scope="col">Role z zaznaczoną zgodą marketingową</th>
     </tr>
   </thead>
 <tbody>
 <form method="POST" class="apa_checkbox" id="apa_checkbox">
 <?php  foreach($pages->getAllPagesIDS() as $pageID)
 
-echo "<tr><td id='".$pageID."' class='apa_page'>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID)."</td></tr>";
-
+echo "<tr><td id='".$pageID."' class='apa_page'>".get_the_title($pageID)."</td><td>".displayCheckboxes($pageID).
+"</td><td><button type ='submit' class=' delete_button btn btn-danger' value=".$pageID." name='delete_button'>usuń</button></td></tr>";
 ?>
 </tbody>
 </table>
-<button class="access_button" name="access_button" type="submit">zapisz</button>
+<button class="access_button btn btn-success" name="access_button" type="submit">zapisz</button>
 </form>
 </div>
