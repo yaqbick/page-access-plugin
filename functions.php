@@ -70,7 +70,6 @@ function handle_event()
 function checkRole($content)
 {
     $pageID = get_the_ID();
-    
     if(get_post_meta($pageID,'amara_page_access') || get_post_meta(wp_get_post_parent_id($pageID),'amara_page_access'))
     {
         
@@ -81,15 +80,19 @@ function checkRole($content)
         if(is_user_logged_in())
         {
             $userRole =$user->roles[0];
+           
         }
         else
         {
             wp_redirect( 'http://pagetoredirectto.com' );
         }
 
-        if(!isset($agreement) || empty($agreement) || !in_array($userRole, $allowedRoles ))
+        if(!isset($agreement) || empty($agreement) || !in_array($userRole, $allowedRoles))
         {
-            wp_redirect( 'http://pagetoredirectto.com' );
+            if($userRole!='administrator')
+            {
+                wp_redirect( 'http://pagetoredirectto.com' );
+            }
         }
     }
 
